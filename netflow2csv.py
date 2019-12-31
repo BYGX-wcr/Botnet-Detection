@@ -192,7 +192,8 @@ class NetFlowDataset:
             return 2
 
     def normalizeInt(self, value):
-        value = ((value + sys.maxsize) / (2 * sys.maxsize)) * 10
+        """Normalize the integer into [0, 10]"""
+        return ((value + sys.maxsize) / (2 * sys.maxsize)) * 10
 
 if __name__ == "__main__":
     CTUDataset = NetFlowDataset("./CTU-13-Dataset")
