@@ -9,7 +9,7 @@ class Dataset:
         self.filePath = path
         self.data = []
         self.labels = []
-        self.range = range(1, 14)
+        self.range = range(0, 14)
         for i in self.range:
             self.data.append([])
             self.labels.append([])
@@ -33,9 +33,9 @@ class Dataset:
                         counter += 1
 
                     # append vector to the SubDataset
-                    self.labels[i - 1].append(vector[counter - 1])
+                    self.labels[i].append(vector[counter - 1])
                     vector.pop() # pop the label
-                    self.data[i - 1].append(vector)
+                    self.data[i].append(vector)
 
                 print("Finish loading SubDataset #{}".format(i))
 
