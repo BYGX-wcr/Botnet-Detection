@@ -23,7 +23,7 @@ class Dataset:
 
                 # creat a handler for each field in the vector
                 # Table Header: "StartTime,Dur,Proto,SrcAddr,Sport,Dir,DstAddr,Dport,State,sTos,dTos,TotPkts,TotBytes,SrcBytes,Label"
-                handlers = [float, float, int, int, int, int, int, int, int, int, int, int, int, int, int]
+                handlers = [float, float, int, float, int, int, float, int, float, int, int, int, int, int, int]
                 for line in csvReader:
                     # convert string to corresponding data type
                     vector = []
