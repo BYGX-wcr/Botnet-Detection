@@ -110,7 +110,7 @@ class NetFlowDataset:
             return int(fields[0]) * 256^3 + int(fields[1]) * 256^2 + int(fields[2]) * 256 + int(fields[3])
         else:
             # Other Addr
-            return hash(SrcAddrStr)
+            return self.normalizeInt(hash(SrcAddrStr))
 
     def SportHandler(self, SportStr):
         """The handler converts the string to an integer and returns it"""
@@ -139,8 +139,7 @@ class NetFlowDataset:
             return int(fields[0]) * 256^3 + int(fields[1]) * 256^2 + int(fields[2]) * 256 + int(fields[3])
         else:
             # Other Addr
-            return hash(DstAddrStr)
-        
+            return self.normalizeInt(hash(DstAddrStr))
 
     def DportHandler(self, DportStr):
         """The handler converts the string to an integer and returns it"""
@@ -152,7 +151,7 @@ class NetFlowDataset:
 
     def StateHandler(self, StateStr):
         """The handler compute the unique value of the state and returns it"""
-        stateId = hash(StateStr)
+        stateId = self.normalizeInt(hash(StateStr))
 
         return stateId
 
@@ -191,6 +190,9 @@ class NetFlowDataset:
             return 1
         else:
             return 2
+
+    def normalizeInt(self, value):
+        value = ((value + sys.maxsize) / (2 * sys.maxsize)) * 10
 
 if __name__ == "__main__":
     CTUDataset = NetFlowDataset("./CTU-13-Dataset")
