@@ -1,6 +1,10 @@
 import sys
 
-class Dataset:
+"""
+This python script is used to convert raw NetFlow files to CSV files for data mining
+"""
+
+class NetFlowDataset:
     """A class store & control the information of the whole dataset"""
 
     def __init__(self, dirPath):
@@ -189,6 +193,6 @@ class Dataset:
             return 2
 
 if __name__ == "__main__":
-    CTUDataset = Dataset("./CTU-13-Dataset")
+    CTUDataset = NetFlowDataset("./CTU-13-Dataset")
     for i in range(1, 14):
         CTUDataset.convertSubDS(i, "capture")
