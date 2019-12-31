@@ -1,3 +1,4 @@
 *.tar*
 .vscode/
 CTU-13-Dataset/
+__pycache__/
