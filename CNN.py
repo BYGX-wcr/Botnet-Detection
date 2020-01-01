@@ -1,4 +1,5 @@
 import keras
+import numpy
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.layers import Embedding
@@ -12,6 +13,8 @@ if __name__ == "__main__":
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData([1, 2])
     train_dataset, train_labels, test_dataset, test_labels = dataset.getShrinkedDataset([1], [2])
+    train_dataset = numpy.array(train_dataset)
+    test_dataset = numpy.array(test_dataset)
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     model = Sequential()
