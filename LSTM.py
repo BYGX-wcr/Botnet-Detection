@@ -45,7 +45,7 @@ if __name__ == "__main__":
     model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
     model.save("LSTM.model")
     res = model.predict(test_dataset, batch_size=512)
-    with open("CNN_predict.result", 'w') as file:
+    with open("LSTM_predict.result", 'w') as file:
         for label in res:
             index = 0
             for pos in label:
