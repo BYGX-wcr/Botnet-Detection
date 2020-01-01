@@ -5,6 +5,7 @@ This python script contain a Dataset class which can load datasets and output in
 """
 
 class Dataset:
+    """A class load & manipulate the CTU-13 dataset"""
     def __init__(self, path):
         self.filePath = path
         self.data = []
