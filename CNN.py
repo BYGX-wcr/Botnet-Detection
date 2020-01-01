@@ -18,7 +18,7 @@ if __name__ == "__main__":
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     model = Sequential()
-    model.add(Conv1D(64, 2, activation='relu', input_shape=(None, 14)))
+    model.add(Conv1D(64, 2, activation='relu', input_shape=(14, 1)))
     model.add(Conv1D(64, 2, activation='relu'))
     model.add(MaxPooling1D(2))
     model.add(Conv1D(128, 2, activation='relu'))
