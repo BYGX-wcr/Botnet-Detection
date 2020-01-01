@@ -8,20 +8,21 @@ from keras.utils import np_utils
 import LoadDataset
 
 if __name__ == "__main__":
+    class_num = 3
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
-    train_labels = np_utils.to_categorical(train_labels, num_classes=3, dtype='int')
+    train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     model = Sequential()
-    model.add(Conv1D(64, 3, activation='relu', input_shape=(14, 1)))
-    model.add(Conv1D(64, 3, activation='relu'))
-    model.add(MaxPooling1D(3))
-    model.add(Conv1D(128, 3, activation='relu'))
-    model.add(Conv1D(128, 3, activation='relu'))
+    model.add(Conv1D(64, 2, activation='relu', input_shape=(None, 14)))
+    model.add(Conv1D(64, 2, activation='relu'))
+    model.add(MaxPooling1D(2))
+    model.add(Conv1D(128, 2, activation='relu'))
+    model.add(Conv1D(128, 2, activation='relu'))
     model.add(GlobalAveragePooling1D())
     model.add(Dropout(0.5))
-    model.add(Dense(1, activation='sigmoid'))
+    model.add(Dense(class_num, activation='sigmoid'))
 
     model.compile(loss=keras.losses.categorical_hinge,
                 optimizer='rmsprop',
