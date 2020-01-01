@@ -38,5 +38,5 @@ if __name__ == "__main__":
             index = 0
             for pos in label:
                 if pos == 1:
-                    file.write(strindex)+"\n")
+                    file.write(str(index)+"\n")
                 index += 1
