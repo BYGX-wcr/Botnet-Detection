@@ -10,8 +10,8 @@ import LoadDataset
 if __name__ == "__main__":
     class_num = 3
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData()
-    train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
+    dataset.loadData([1, 2])
+    train_dataset, train_labels, test_dataset, test_labels = dataset.getShrinkedDataset([1], [2])
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     model = Sequential()
