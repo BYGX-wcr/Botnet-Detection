@@ -13,12 +13,12 @@ if __name__ == "__main__":
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData([1, 2])
     train_dataset, train_labels, test_dataset, test_labels = dataset.getShrinkedDataset([1], [2])
-    train_dataset = numpy.array(train_dataset).reshape((1, len(train_dataset), 14))
-    test_dataset = numpy.array(test_dataset).reshape((1, len(test_dataset), 14))
+    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 1, 14))
+    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 1, 14))
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     model = Sequential()
-    model.add(Conv1D(64, 2, activation='relu', input_shape=(None, 14)))
+    model.add(Conv1D(64, 2, activation='relu', input_shape=(1, 14)))
     model.add(Conv1D(64, 2, activation='relu'))
     model.add(MaxPooling1D(2))
     model.add(Conv1D(128, 2, activation='relu'))
@@ -27,9 +27,10 @@ if __name__ == "__main__":
     model.add(Dropout(0.5))
     model.add(Dense(class_num, activation='sigmoid'))
 
+    sgd = keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(loss=keras.losses.categorical_hinge,
-                optimizer='rmsprop',
-                metrics=['mae'])
+                optimizer=sgd,
+                metrics=['mae', 'accuracy'])
 
     model.fit(train_dataset, train_labels, batch_size=512, epochs=10)
     res = model.predict(test_dataset, batch_size=512)
