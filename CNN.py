@@ -11,14 +11,14 @@ import LoadDataset
 if __name__ == "__main__":
     class_num = 3
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData([1, 2])
-    train_dataset, train_labels, test_dataset, test_labels = dataset.getShrinkedDataset([1], [2])
-    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 1, 14))
-    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 1, 14))
+    dataset.loadData()
+    train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
+    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14, 1))
+    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14, 1))
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     model = Sequential()
-    model.add(Conv1D(64, 2, activation='relu', input_shape=(1, 14)))
+    model.add(Conv1D(64, 2, activation='relu', input_shape=(14, 1)))
     model.add(Conv1D(64, 2, activation='relu'))
     model.add(MaxPooling1D(2))
     model.add(Conv1D(128, 2, activation='relu'))
