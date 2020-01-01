@@ -30,6 +30,6 @@ if __name__ == "__main__":
 
     model.fit(train_dataset, train_labels, batch_size=512, epochs=10)
     res = model.predict(test_dataset, batch_size=512)
-    with open("CNN_predict.txt", 'w') as file:
+    with open("CNN_predict.result", 'w') as file:
         for label in res:
             file.write(str(label)+"\n")

@@ -52,6 +52,6 @@ if __name__ == "__main__":
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
 
     res = experiment(train_dataset, test_dataset, train_labels, test_labels)
-    with open("MulNB_predict.txt", 'w') as file:
+    with open("MulNB_predict.result", 'w') as file:
         for label in res:
             file.write(str(label)+"\n")
