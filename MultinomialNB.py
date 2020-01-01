@@ -18,11 +18,15 @@ def predict_MulNB(data, model):
 def score_MulNB(predict_labels, test_labels):
     return sm.balanced_accuracy_score(test_labels, predict_labels)
 
+def f1_score_MulNB(predict_labels, test_labels):
+    return sm.f1_score(test_labels, predict_labels)
+
 def experiment(train_dataset, test_dataset, train_labels, test_labels=None):
     MulNB_model = train_MulNB(train_dataset, train_labels)
     res = predict_MulNB(test_dataset, MulNB_model)
     if test_labels != None:
-        print("balanced accuracy: {0}".format(score_MulNB(res, test_labels)))
+        # print("balanced accuracy: {0}".format(score_MulNB(res, test_labels)))
+        print("F1 score: {0}".format(f1_score_MulNB(res, test_labels)))
 
     return res
 
