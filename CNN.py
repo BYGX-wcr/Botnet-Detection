@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     # get training epochs
     epochs = 1
-    if len(sys.argv) < 2:
+    if len(sys.argv) >= 2:
         epochs = int(sys.argv[1])
 
     # get training model
@@ -49,9 +49,11 @@ if __name__ == "__main__":
     model.save("CNN.model")
     res = model.predict(test_dataset, batch_size=512)
     with open("CNN_predict.result", 'w') as file:
+        counter = 0
         for label in res:
             index = 0
             for pos in label:
                 if pos == 1:
-                    file.write(str(index)+"\n")
+                    file.write(str(index) + ',' + str(test_labels[counter]) +"\n")
                 index += 1
+            counter += 1
