@@ -10,14 +10,6 @@ from keras.utils import np_utils
 import LoadDataset
 
 if __name__ == "__main__":
-    class_num = 3
-    dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData()
-    train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
-    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 1, 14))
-    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 1, 14))
-    train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
-
     # get training epochs
     epochs = 1
     if len(sys.argv) < 2:
@@ -40,6 +32,15 @@ if __name__ == "__main__":
     else:
         # use an existing model
         model = keras.models.load_model(sys.argv[2])
+
+    # get the dataset
+    class_num = 3
+    dataset = LoadDataset.Dataset("./CTU-13-Dataset")
+    dataset.loadData()
+    train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
+    # train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14))
+    # test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14))
+    train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
     model.save("LSTM.model")
