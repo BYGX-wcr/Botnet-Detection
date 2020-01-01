@@ -13,8 +13,8 @@ if __name__ == "__main__":
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData([1, 2])
     train_dataset, train_labels, test_dataset, test_labels = dataset.getShrinkedDataset([1], [2])
-    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14, 1))
-    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14, 1))
+    train_dataset = numpy.array(train_dataset).reshape((512, len(train_dataset), 14))
+    test_dataset = numpy.array(test_dataset).reshape((512, len(test_dataset), 14, 1))
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     model = Sequential()
