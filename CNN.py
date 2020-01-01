@@ -32,7 +32,7 @@ if __name__ == "__main__":
                 optimizer=sgd,
                 metrics=['mae', 'accuracy'])
 
-    model.fit(train_dataset, train_labels, batch_size=512, epochs=10)
+    model.fit(train_dataset, train_labels, batch_size=512, epochs=50)
     res = model.predict(test_dataset, batch_size=512)
     with open("CNN_predict.result", 'w') as file:
         for label in res:
