@@ -28,7 +28,7 @@ if __name__ == "__main__":
         model.add(Conv1D(64, 2, activation='relu'))
         model.add(GlobalAveragePooling1D())
         model.add(Dropout(0.5))
-        model.add(Dense(3, activation='sigmoid'))
+        model.add(Dense(3, activation='softmax'))
 
         sgd = keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
         model.compile(loss=keras.losses.categorical_crossentropy,
@@ -39,8 +39,8 @@ if __name__ == "__main__":
         model = keras.models.load_model(sys.argv[2])
 
     class_num = 3
-    class_labels = np_utils.to_categorical([1, 2, 3], num_classes=class_num, dtype='int')
-    class_weights = {class_labels[0]: 0.001, class_labels[1]: 0.099, class_labels: 0.9}
+    class_labels = np_utils.to_categorical([0, 1, 2], num_classes=class_num, dtype='int')
+    class_weights = {class_labels[0]: 0.001, class_labels[1]: 0.099, class_labels[2]: 0.9}
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
