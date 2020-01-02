@@ -28,7 +28,7 @@ if __name__ == "__main__":
         model.add(Conv1D(64, 2, activation='relu'))
         model.add(GlobalAveragePooling1D())
         model.add(Dropout(0.5))
-        model.add(Dense(class_num, activation='sigmoid'))
+        model.add(Dense(3, activation='sigmoid'))
 
         sgd = keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
         model.compile(loss=keras.losses.categorical_crossentropy,
