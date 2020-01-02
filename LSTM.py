@@ -6,6 +6,7 @@ from keras.layers import Dense, Dropout
 from keras.layers import Input
 from keras.layers import LSTM
 from keras.utils import np_utils
+from imblearn.under_sampling import RandomUnderSampler
 
 import LoadDataset
 
@@ -41,10 +42,14 @@ if __name__ == "__main__":
     test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 1, 14))
     train_labels = numpy.array(train_labels)
     test_labels = numpy.array(test_labels)
-    train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
+
+    # conduct undersampling
+    rus = RandomUnderSampler(random_state=8)
+    train_dataset, train_labels = rus.fit_resample(train_dataset, train_labels)
 
     if epochs > 0:
         print("Info: Start Training")
+        train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
         model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
         model.save("LSTM.model")
 
