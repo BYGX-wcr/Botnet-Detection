@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     class_num = 3
     class_labels = np_utils.to_categorical([0, 1, 2], num_classes=class_num, dtype='int')
-    class_weights = {class_labels[0]: 0.001, class_labels[1]: 0.099, class_labels[2]: 0.9}
+    class_weights = {0: 0.001, 1: 0.099, 2: 0.9}
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
