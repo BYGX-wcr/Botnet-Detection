@@ -20,7 +20,7 @@ class Dataset:
         for i in idList:
             with open("{}/{}.csv".format(self.filePath, i), 'r') as file:
                 csvReader = csv.reader(file)
-                print("Start loading SubDataset #{}".format(i))
+                print("Info: Start loading SubDataset #{}".format(i))
 
                 # creat a handler for each field in the vector
                 # Table Header: "StartTime,Dur,Proto,SrcAddr,Sport,Dir,DstAddr,Dport,State,sTos,dTos,TotPkts,TotBytes,SrcBytes,Label"
@@ -102,4 +102,4 @@ if __name__ == "__main__":
     dataset = Dataset("./CTU-13-Dataset")
     dataset.loadData([13])
     trainData, trainLabels, testData, testLabels = dataset.getShrinkedDataset([1], [2])
-    print("Testing Finished!")
+    print("Info: Testing Finished!")

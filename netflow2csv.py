@@ -47,7 +47,7 @@ class NetFlowDataset:
                     try:
                         unit = self.lineFormatDict[counter](item)
                     except:
-                        print("Unexpected error:", sys.exc_info()[0])
+                        print("Error: Unexpected error:", sys.exc_info()[0])
                         raise
 
                     if counter < len(items):
