@@ -68,5 +68,5 @@ if __name__ == "__main__":
                 index += 1
 
             # output
-            file.write(str(max_class) + ',' + test_labels[counter] + '\n')
+            file.write(str(max_class) + ',' + str(test_labels[counter]) + '\n')
             counter += 1

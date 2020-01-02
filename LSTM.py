@@ -3,7 +3,7 @@ import keras
 import numpy
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
-from keras.layers import Embedding
+from keras.layers import Input
 from keras.layers import LSTM
 from keras.utils import np_utils
 
@@ -20,7 +20,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(Embedding(14, output_dim=32))
+        model.add(Input(shape=(14, 1)))
         model.add(LSTM(128))
         model.add(Dropout(0.5))
         model.add(Dense(1, activation='sigmoid'))
