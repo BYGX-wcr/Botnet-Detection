@@ -43,13 +43,15 @@ if __name__ == "__main__":
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
     train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14, 1))
     test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14, 1))
+    train_labels = numpy.array(train_labels)
+    test_labels = numpy.array(test_labels)
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     if epochs > 0:
         print("Info: Start Training")
         model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
         model.save("CNN.model", overwrite=False)
-        
+
     print("Info: Start Testing")
     res = model.predict(test_dataset, batch_size=512)
     with open("CNN_predict.result", 'w') as file:
