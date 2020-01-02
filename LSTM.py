@@ -20,8 +20,8 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(LSTM(32, input_shape=(1, 14)))
-        model.add(LSTM(32))
+        model.add(LSTM(32, return_sequences=True, input_shape=(1, 14)))
+        model.add(LSTM(32, return_sequences=True))
         model.add(LSTM(32))
         model.add(Dense(3, activation='softmax'))
         sgd = keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
