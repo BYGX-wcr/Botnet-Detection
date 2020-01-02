@@ -49,6 +49,7 @@ if __name__ == "__main__":
         print("Info: Start Training")
         model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
         model.save("CNN.model", overwrite=False)
+        
     print("Info: Start Testing")
     res = model.predict(test_dataset, batch_size=512)
     with open("CNN_predict.result", 'w') as file:

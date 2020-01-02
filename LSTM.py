@@ -20,7 +20,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(Embedding(14, output_dim=10))
+        model.add(Embedding(14, output_dim=32))
         model.add(LSTM(128))
         model.add(Dropout(0.5))
         model.add(Dense(1, activation='sigmoid'))
@@ -38,12 +38,16 @@ if __name__ == "__main__":
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
-    # train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14))
-    # test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14))
+    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14))
+    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14))
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
-    model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
-    model.save("LSTM.model")
+    if epochs > 0:
+        print("Info: Start Training")
+        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
+        model.save("LSTM.model")
+
+    print("Info: Start Testing")
     res = model.predict(test_dataset, batch_size=512)
     with open("LSTM_predict.result", 'w') as file:
         counter = 0
