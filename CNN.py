@@ -46,6 +46,7 @@ if __name__ == "__main__":
     train_labels = numpy.array(train_labels)
     test_labels = numpy.array(test_labels)
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
+    print(train_labels)
 
     if epochs > 0:
         print("Info: Start Training")
@@ -54,6 +55,7 @@ if __name__ == "__main__":
 
     print("Info: Start Testing")
     res = model.predict(test_dataset, batch_size=512)
+    print(res)
     with open("CNN_predict.result", 'w') as file:
         counter = 0
         for label in res:
