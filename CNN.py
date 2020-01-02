@@ -20,17 +20,18 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(Conv1D(64, 2, activation='relu', input_shape=(14, 1)))
-        model.add(Conv1D(64, 2, activation='relu'))
+        model.add(Conv1D(32, 2, activation='relu', input_shape=(14, 1)))
+        model.add(Conv1D(32, 2, activation='relu'))
         model.add(MaxPooling1D(2))
-        model.add(Conv1D(128, 2, activation='relu'))
-        model.add(Conv1D(128, 2, activation='relu'))
+        model.add(Dropout(0.5))
+        model.add(Conv1D(64, 2, activation='relu'))
+        model.add(Conv1D(64, 2, activation='relu'))
         model.add(GlobalAveragePooling1D())
         model.add(Dropout(0.5))
         model.add(Dense(class_num, activation='sigmoid'))
 
         sgd = keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-        model.compile(loss=keras.losses.categorical_hinge,
+        model.compile(loss=keras.losses.categorical_crossentropy,
                     optimizer=sgd,
                     metrics=['mae', 'accuracy'])
     else:
