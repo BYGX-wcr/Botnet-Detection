@@ -20,13 +20,12 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(Input(shape=(14, 1)))
-        model.add(LSTM(128))
-        model.add(Dropout(0.5))
-        model.add(Dense(1, activation='sigmoid'))
-
+        model.add(LSTM(32, input_shape=(1, 14)))
+        model.add(LSTM(32))
+        model.add(LSTM(32))
+        model.add(Dense(3, activation='softmax'))
         sgd = keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-        model.compile(loss=keras.losses.categorical_hinge,
+        model.compile(loss='categorical_crossentropy',
                     optimizer=sgd,
                     metrics=['mae', 'accuracy'])
     else:
@@ -38,8 +37,8 @@ if __name__ == "__main__":
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
-    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14, 1))
-    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14, 1))
+    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 1, 14))
+    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 1, 14))
     train_labels = numpy.array(train_labels)
     test_labels = numpy.array(test_labels)
     train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
