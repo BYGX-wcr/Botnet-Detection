@@ -38,7 +38,7 @@ class Dataset:
                     vector.pop() # pop the label
                     self.data[i].append(vector)
 
-                print("Finish loading SubDataset #{}".format(i))
+                print("Info: Finish loading SubDataset #{}".format(i))
 
     def clearCache(self):
         """Clear all loaded SubDatasets"""
