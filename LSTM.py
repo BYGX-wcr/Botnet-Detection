@@ -38,14 +38,16 @@ if __name__ == "__main__":
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
-    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 1, 14))
-    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 1, 14))
-    train_labels = numpy.array(train_labels)
-    test_labels = numpy.array(test_labels)
 
     # conduct undersampling
     rus = RandomUnderSampler(random_state=8)
     train_dataset, train_labels = rus.fit_resample(train_dataset, train_labels)
+
+    # list to ndarray
+    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 1, 14))
+    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 1, 14))
+    train_labels = numpy.array(train_labels)
+    test_labels = numpy.array(test_labels)
 
     if epochs > 0:
         print("Info: Start Training")
