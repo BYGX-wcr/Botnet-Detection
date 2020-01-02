@@ -4,3 +4,4 @@ CTU-13-Dataset/
 __pycache__/
 *.log
 *.result
+*.model
