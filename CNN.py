@@ -40,22 +40,21 @@ if __name__ == "__main__":
         # use an existing model
         model = keras.models.load_model(sys.argv[2])
 
-    # class_num = 3
-    # class_weights = {0: 0.02, 1: 0.23, 2: 0.75}
-    # dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    # dataset.loadData()
-    # train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
-    # train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14, 1))
-    # test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14, 1))
-    # train_labels = numpy.array(train_labels)
-    # test_labels = numpy.array(test_labels)
-    # train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
+    class_num = 3
+    class_weights = {0: 0.02, 1: 0.23, 2: 0.75}
+    dataset = LoadDataset.Dataset("./CTU-13-Dataset")
+    dataset.loadData()
+    train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
+    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14, 1))
+    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14, 1))
+    train_labels = numpy.array(train_labels)
+    test_labels = numpy.array(test_labels)
+    train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     if epochs > 0:
         print("Info: Start Training")
         history = model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, validation_split=0.2, class_weight=class_weights)
         model.save("CNN.model")
-        plot_model(model, to_file='CNN_model.png')
 
         # Plot training & validation accuracy values
         plt.plot(history.history['acc'])
@@ -74,8 +73,6 @@ if __name__ == "__main__":
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Test'], loc='upper left')
         plt.show()
-    else:
-        plot_model(model, to_file='CNN_model.png')
 
     # print("Info: Start Testing")
     # res = model.predict(test_dataset, batch_size=512)
