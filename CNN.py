@@ -6,6 +6,8 @@ from keras.layers import Dense, Dropout
 from keras.layers import Embedding
 from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
 from keras.utils import np_utils
+from keras.utils import plot_model
+import matplotlib.pyplot as plt
 
 import LoadDataset
 
@@ -51,25 +53,44 @@ if __name__ == "__main__":
 
     if epochs > 0:
         print("Info: Start Training")
-        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, validation_split=0.2, class_weight=class_weights)
+        history = model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, validation_split=0.2, class_weight=class_weights)
         model.save("CNN.model")
+        plot_model(model, to_file='CNN_model.png', dpi=300)
 
-    print("Info: Start Testing")
-    res = model.predict(test_dataset, batch_size=512)
-    print(res)
-    with open("CNN_predict.result", 'w') as file:
-        counter = 0
-        for prob_vec in res:
-            max_class = 0
-            max_prob = 0.0
-            index = 0
-            # find the class with max probability
-            for class_prob in prob_vec:
-                if class_prob > max_prob:
-                    max_class = index
-                    max_prob = class_prob
-                index += 1
+        # Plot training & validation accuracy values
+        plt.plot(history.history['acc'])
+        plt.plot(history.history['val_acc'])
+        plt.title('Model accuracy')
+        plt.ylabel('Accuracy')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.show()
 
-            # output
-            file.write(str(max_class) + ',' + str(test_labels[counter]) + '\n')
-            counter += 1
+        # Plot training & validation loss values
+        plt.plot(history.history['loss'])
+        plt.plot(history.history['val_loss'])
+        plt.title('Model loss')
+        plt.ylabel('Loss')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.show()
+
+    # print("Info: Start Testing")
+    # res = model.predict(test_dataset, batch_size=512)
+    # print(res)
+    # with open("CNN_predict.result", 'w') as file:
+    #     counter = 0
+    #     for prob_vec in res:
+    #         max_class = 0
+    #         max_prob = 0.0
+    #         index = 0
+    #         # find the class with max probability
+    #         for class_prob in prob_vec:
+    #             if class_prob > max_prob:
+    #                 max_class = index
+    #                 max_prob = class_prob
+    #             index += 1
+
+    #         # output
+    #         file.write(str(max_class) + ',' + str(test_labels[counter]) + '\n')
+    #         counter += 1
