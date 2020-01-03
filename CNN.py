@@ -74,22 +74,22 @@ if __name__ == "__main__":
         plt.legend(['Train', 'Test'], loc='upper left')
         plt.show()
 
-    # print("Info: Start Testing")
-    # res = model.predict(test_dataset, batch_size=512)
-    # print(res)
-    # with open("CNN_predict.result", 'w') as file:
-    #     counter = 0
-    #     for prob_vec in res:
-    #         max_class = 0
-    #         max_prob = 0.0
-    #         index = 0
-    #         # find the class with max probability
-    #         for class_prob in prob_vec:
-    #             if class_prob > max_prob:
-    #                 max_class = index
-    #                 max_prob = class_prob
-    #             index += 1
+    print("Info: Start Testing")
+    res = model.predict(test_dataset, batch_size=512)
+    print(res)
+    with open("CNN_predict.result", 'w') as file:
+        counter = 0
+        for prob_vec in res:
+            max_class = 0
+            max_prob = 0.0
+            index = 0
+            # find the class with max probability
+            for class_prob in prob_vec:
+                if class_prob > max_prob:
+                    max_class = index
+                    max_prob = class_prob
+                index += 1
 
-    #         # output
-    #         file.write(str(max_class) + ',' + str(test_labels[counter]) + '\n')
-    #         counter += 1
+            # output
+            file.write(str(max_class) + ',' + str(test_labels[counter]) + '\n')
+            counter += 1
