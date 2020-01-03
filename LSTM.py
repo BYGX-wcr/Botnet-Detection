@@ -35,13 +35,10 @@ if __name__ == "__main__":
 
     # get the dataset
     class_num = 3
+    class_weights = {0: 0.02, 1: 0.23, 2: 0.75}
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
-
-    # conduct undersampling
-    rus = RandomUnderSampler(random_state=8)
-    train_dataset, train_labels = rus.fit_resample(train_dataset, train_labels)
 
     # list to ndarray
     train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 1, 14))
@@ -52,7 +49,7 @@ if __name__ == "__main__":
     if epochs > 0:
         print("Info: Start Training")
         train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
-        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
+        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, class_weight=class_weights)
         model.save("LSTM.model")
 
     print("Info: Start Testing")

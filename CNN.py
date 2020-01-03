@@ -39,7 +39,6 @@ if __name__ == "__main__":
         model = keras.models.load_model(sys.argv[2])
 
     class_num = 3
-    class_labels = np_utils.to_categorical([0, 1, 2], num_classes=class_num, dtype='int')
     class_weights = {0: 0.0001, 1: 0.0099, 2: 0.99}
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData()
