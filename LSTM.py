@@ -25,9 +25,8 @@ if __name__ == "__main__":
         model.add(LSTM(32, return_sequences=True))
         model.add(LSTM(32))
         model.add(Dense(3, activation='softmax'))
-        sgd = keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
         model.compile(loss='categorical_crossentropy',
-                    optimizer=sgd,
+                    optimizer='adam',
                     metrics=['mae', 'accuracy'])
     else:
         # use an existing model
