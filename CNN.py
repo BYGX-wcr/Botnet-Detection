@@ -20,17 +20,13 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(Conv1D(32, 2, activation='relu', input_shape=(14, 1)))
-        model.add(Conv1D(32, 2, activation='relu'))
+        model.add(Conv1D(32, 3, activation='relu', input_shape=(14, 1)))
+        model.add(Conv1D(32, 3, activation='relu'))
         model.add(MaxPooling1D(2))
-        model.add(Dropout(0.5))
-        model.add(Conv1D(64, 2, activation='relu'))
-        model.add(Conv1D(64, 2, activation='relu'))
-        model.add(GlobalAveragePooling1D())
         model.add(Dropout(0.5))
         model.add(Dense(3, activation='softmax'))
 
-        sgd = keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+        sgd = keras.optimizers.SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
         model.compile(loss=keras.losses.categorical_crossentropy,
                     optimizer=sgd,
                     metrics=['mae', 'accuracy'])
@@ -39,7 +35,7 @@ if __name__ == "__main__":
         model = keras.models.load_model(sys.argv[2])
 
     class_num = 3
-    class_weights = {0: 0.0001, 1: 0.0099, 2: 0.99}
+    class_weights = {0: 0.02, 1: 0.23, 2: 0.75}
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
