@@ -55,7 +55,7 @@ if __name__ == "__main__":
         print("Info: Start Training")
         history = model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, validation_split=0.2, class_weight=class_weights)
         model.save("CNN.model")
-        plot_model(model, to_file='CNN_model.png', dpi=300)
+        plot_model(model, to_file='CNN_model.png')
 
         # Plot training & validation accuracy values
         plt.plot(history.history['acc'])
@@ -74,6 +74,8 @@ if __name__ == "__main__":
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Test'], loc='upper left')
         plt.show()
+    else:
+        plot_model(model, to_file='CNN_model.png')
 
     # print("Info: Start Testing")
     # res = model.predict(test_dataset, batch_size=512)
