@@ -22,7 +22,7 @@ if __name__ == "__main__":
         model = Sequential()
         model.add(Conv1D(32, 2, activation='relu', input_shape=(14, 1)))
         model.add(Conv1D(32, 2, activation='relu'))
-        model.add(MaxPooling1D(2))
+        model.add(MaxPooling1D())
         model.add(Dropout(0.5))
         model.add(Dense(3, activation='softmax'))
 
