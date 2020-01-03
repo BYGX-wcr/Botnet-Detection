@@ -40,16 +40,16 @@ if __name__ == "__main__":
         # use an existing model
         model = keras.models.load_model(sys.argv[2])
 
-    class_num = 3
-    class_weights = {0: 0.02, 1: 0.23, 2: 0.75}
-    dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData()
-    train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
-    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14, 1))
-    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14, 1))
-    train_labels = numpy.array(train_labels)
-    test_labels = numpy.array(test_labels)
-    train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
+    # class_num = 3
+    # class_weights = {0: 0.02, 1: 0.23, 2: 0.75}
+    # dataset = LoadDataset.Dataset("./CTU-13-Dataset")
+    # dataset.loadData()
+    # train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
+    # train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), 14, 1))
+    # test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), 14, 1))
+    # train_labels = numpy.array(train_labels)
+    # test_labels = numpy.array(test_labels)
+    # train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     if epochs > 0:
         print("Info: Start Training")
