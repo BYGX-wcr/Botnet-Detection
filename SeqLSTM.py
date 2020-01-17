@@ -55,7 +55,7 @@ if __name__ == "__main__":
         print("Info: Start Training")
         train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
         model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, class_weight=class_weights)
-        model.save("LSTM.model")
+        model.save("SeqLSTM.model")
 
     print("Info: Start Testing")
     res = model.predict(test_dataset, batch_size=512)
