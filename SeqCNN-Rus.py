@@ -61,10 +61,10 @@ if __name__ == "__main__":
     test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), seqLen, features))
     train_labels = numpy.array(train_labels)
     test_labels = numpy.array(test_labels)
-    train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
 
     if epochs > 0:
         print("Info: Start Training")
+        train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
         model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, validation_split=0.2)
         model.save("SeqCNN-Rus.model")
 
