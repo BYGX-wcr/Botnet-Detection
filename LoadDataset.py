@@ -16,7 +16,7 @@ class Dataset:
             self.labels.append([])
 
     def loadData(self, idList=range(1, 14)):
-        """Load all SubDatasets specified in the idList"""
+        """Load all SubDatasets specified in the arg:idList"""
         for i in idList:
             with open("{}/{}.csv".format(self.filePath, i), 'r') as file:
                 csvReader = csv.reader(file)
@@ -74,7 +74,7 @@ class Dataset:
         return trainData, trainLabels, testData, testLabels
 
     def getShrinkedDataset(self, trainIdList, testIdList):
-        """Get the shrinked dataset appointed by trainIdList and testIdList"""
+        """Get the shrinked dataset appointed by arg:trainIdList and arg:testIdList"""
         trainData = []
         trainLabels = []
         testData = []
