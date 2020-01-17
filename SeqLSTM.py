@@ -60,7 +60,7 @@ if __name__ == "__main__":
     print("Info: Start Testing")
     res = model.predict(test_dataset, batch_size=512)
     print(res)
-    with open("LSTM_predict.result", 'w') as file:
+    with open("SeqLSTM_predict.result", 'w') as file:
         counter = 0
         for prob_vec in res:
             max_class = 0
