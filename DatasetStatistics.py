@@ -4,6 +4,7 @@ def labelCount(labels):
 	counters = [0, 0, 0]
 	for label in labels:
 		counters[int(label)] += 1
+	print("Background Normal Botnet")
 	print(counters)
 
 if __name__=="__main__":
