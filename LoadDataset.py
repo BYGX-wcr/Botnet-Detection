@@ -42,6 +42,7 @@ class Dataset:
                     self.data[i].append(vector)
 
                 print("Info: Finish loading SubDataset #{}".format(i))
+        featureList.pop()
 
     def clearCache(self):
         """Clear all loaded SubDatasets"""
