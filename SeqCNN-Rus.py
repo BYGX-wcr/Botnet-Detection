@@ -35,7 +35,7 @@ if __name__ == "__main__":
         model.add(Dense(3, activation='softmax'))
 
         model.compile(loss='categorical_crossentropy',
-                    optimizer='rmsprop',
+                    optimizer='adam',
                     metrics=['accuracy'])
     else:
         # use an existing model
