@@ -14,8 +14,8 @@ import Sequentialize
 if __name__ == "__main__":
     # parameters settings
     class_num = 3
-    seqLen = 5
-    timeWindow = 2
+    seqLen = 16
+    timeWindow = 3
     features = 14
     # get training epochs
     epochs = 1
@@ -28,13 +28,11 @@ if __name__ == "__main__":
         # create a new model
         model = Sequential()
         model.add(Conv1D(64, 3, activation='relu', input_shape=(seqLen, features)))
-        model.add(Conv1D(64, 3, activation='relu'))
         model.add(MaxPooling1D(3))
-        model.add(Conv1D(128, 3, activation='relu'))
         model.add(Conv1D(128, 3, activation='relu'))
         model.add(GlobalAveragePooling1D())
         model.add(Dropout(0.5))
-        model.add(Dense(1, activation='softmax'))
+        model.add(Dense(3, activation='softmax'))
 
         model.compile(loss='categorical_crossentropy',
                     optimizer='rmsprop',
@@ -48,13 +46,13 @@ if __name__ == "__main__":
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
 
-    # conduct undersampling
-    rus = RandomUnderSampler(random_state=8)
-    train_dataset, train_labels = rus.fit_resample(train_dataset, train_labels)
-
     # sequentialization
     train_dataset, train_labels = Sequentialize.sequentializeDataset(train_dataset, train_labels, timeWindow=timeWindow, sequenceLen=seqLen)
     test_dataset, test_labels = Sequentialize.sequentializeDataset(test_dataset, test_labels, timeWindow=timeWindow, sequenceLen=seqLen)
+
+    # conduct undersampling
+    # rus = RandomUnderSampler(random_state=8)
+    # train_dataset, train_labels = rus.fit_resample(train_dataset, train_labels)
 
     # list to ndarray
     train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), seqLen, features))
