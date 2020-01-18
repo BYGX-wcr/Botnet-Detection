@@ -14,7 +14,7 @@ import Sequentialize
 if __name__ == "__main__":
     # parameters settings
     class_num = 3
-    class_weights = {0: 0.02, 1: 0.23, 2: 0.75}
+    class_weights = {0: 0.02, 1: 0.48, 2: 0.5}
     seqLen = 5
     timeWindow = 2
     # get training epochs
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     if epochs > 0:
         print("Info: Start Training")
         train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
-        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
+        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, class_weight=class_weights)
         model.save("SeqLSTM.model")
 
     print("Info: Start Testing")
