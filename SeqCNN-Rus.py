@@ -57,8 +57,8 @@ if __name__ == "__main__":
     test_dataset, test_labels = Sequentialize.sequentializeDataset(test_dataset, test_labels, timeWindow=timeWindow, sequenceLen=seqLen)
 
     # list to ndarray
-    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), seqLen, features))
-    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), seqLen, features))
+    train_dataset = numpy.array(train_dataset)
+    test_dataset = numpy.array(test_dataset)
     train_labels = numpy.array(train_labels)
     test_labels = numpy.array(test_labels)
 

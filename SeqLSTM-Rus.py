@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     # get the dataset
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData(featureList=features)
+    dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
 
     # conduct undersampling
