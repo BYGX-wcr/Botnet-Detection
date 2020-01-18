@@ -3,8 +3,8 @@ import keras
 import numpy
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
-from keras.layers import Embedding
-from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
+from keras.layers import Input
+from keras.layers import LSTM
 from keras.utils import np_utils
 from imblearn.under_sampling import RandomUnderSampler
 
@@ -14,9 +14,9 @@ import Sequentialize
 if __name__ == "__main__":
     # parameters settings
     class_num = 3
-    seqLen = 16
-    timeWindow = 3
-    features = 14
+    class_weights = {0: 0.02, 1: 0.23, 2: 0.75}
+    seqLen = 5
+    timeWindow = 2
     # get training epochs
     epochs = 1
     if len(sys.argv) >= 2:
@@ -27,16 +27,11 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(Conv1D(64, 3, activation='relu', input_shape=(seqLen, features)))
-        model.add(MaxPooling1D(3))
-        model.add(Conv1D(128, 3, activation='relu'))
-        model.add(GlobalAveragePooling1D())
-        model.add(Dropout(0.5))
+        model.add(LSTM(32, input_shape=(seqLen, 14)))
         model.add(Dense(3, activation='softmax'))
-
         model.compile(loss='categorical_crossentropy',
-                    optimizer='rmsprop',
-                    metrics=['accuracy'])
+                    optimizer='adam',
+                    metrics=['mae', 'accuracy'])
     else:
         # use an existing model
         model = keras.models.load_model(sys.argv[2])
@@ -55,21 +50,21 @@ if __name__ == "__main__":
     train_dataset, train_labels = rus.fit_resample(train_dataset, train_labels)
 
     # list to ndarray
-    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), seqLen, features))
-    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), seqLen, features))
+    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), seqLen, 14))
+    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), seqLen, 14))
     train_labels = numpy.array(train_labels)
     test_labels = numpy.array(test_labels)
 
     if epochs > 0:
         print("Info: Start Training")
-        train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
-        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, validation_split=0.2)
-        model.save("SeqCNN-Rus.model")
+        train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
+        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, class_weight=class_weights)
+        model.save("SeqLSTM.model")
 
     print("Info: Start Testing")
     res = model.predict(test_dataset, batch_size=512)
     print(res)
-    with open("SeqCNN-Rus.result", 'w') as file:
+    with open("SeqLSTM_predict.result", 'w') as file:
         counter = 0
         for prob_vec in res:
             max_class = 0
