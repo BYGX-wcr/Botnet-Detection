@@ -17,6 +17,7 @@ class Dataset:
 
     def loadData(self, idList=range(1, 14), featureList=range(0, 14)):
         """Load the SubDatasets specified in the arg:idList with the features specified in the arg:featureList"""
+        featureList.append(14) # ensure that label will be handled
         for i in idList:
             with open("{}/{}.csv".format(self.filePath, i), 'r') as file:
                 csvReader = csv.reader(file)
