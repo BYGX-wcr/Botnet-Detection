@@ -16,6 +16,7 @@ if __name__ == "__main__":
     class_num = 3
     seqLen = 5
     timeWindow = 2
+    features = [0, 1, 3, 4, 5, 6, 7, 8, 11, 12, 13]
     # get training epochs
     epochs = 1
     if len(sys.argv) >= 2:
@@ -26,8 +27,8 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(LSTM(32, input_shape=(seqLen, 14)))
-        model.add(Dense(3, activation='softmax'))
+        model.add(LSTM(32, input_shape=(seqLen, len(features))))
+        model.add(Dense(class_num, activation='softmax'))
         model.compile(loss='categorical_crossentropy',
                     optimizer='adam',
                     metrics=['mae', 'accuracy'])
@@ -37,7 +38,7 @@ if __name__ == "__main__":
 
     # get the dataset
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData()
+    dataset.loadData(featureList=features)
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
 
     # conduct undersampling

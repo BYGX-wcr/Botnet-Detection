@@ -15,8 +15,8 @@ class Dataset:
             self.data.append([])
             self.labels.append([])
 
-    def loadData(self, idList=range(1, 14)):
-        """Load all SubDatasets specified in the arg:idList"""
+    def loadData(self, idList=range(1, 14), featureList=range(0, 14)):
+        """Load the SubDatasets specified in the arg:idList with the features specified in the arg:featureList"""
         for i in idList:
             with open("{}/{}.csv".format(self.filePath, i), 'r') as file:
                 csvReader = csv.reader(file)
@@ -30,7 +30,9 @@ class Dataset:
                     vector = []
                     counter = 0
                     for item in line:
-                        vector.append(handlers[counter](item))
+                        if counter in featureList:
+                            # only load the required features
+                            vector.append(handlers[counter](item))
                         counter += 1
 
                     # append vector to the SubDataset
