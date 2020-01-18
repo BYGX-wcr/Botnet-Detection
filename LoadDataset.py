@@ -37,7 +37,7 @@ class Dataset:
                         counter += 1
 
                     # append vector to the SubDataset
-                    self.labels[i].append(vector[counter - 1])
+                    self.labels[i].append(vector[len(vector) - 1])
                     vector.pop() # pop the label
                     self.data[i].append(vector)
 
@@ -103,6 +103,7 @@ class Dataset:
 
 if __name__ == "__main__":
     dataset = Dataset("./CTU-13-Dataset")
-    dataset.loadData([13])
+    features = [0, 1, 3, 4, 5, 6, 7, 8, 11, 12, 13]
+    dataset.loadData([13], featureList=features)
     trainData, trainLabels, testData, testLabels = dataset.getShrinkedDataset([1], [2])
     print("Info: Testing Finished!")
