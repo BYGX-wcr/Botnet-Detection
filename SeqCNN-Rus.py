@@ -46,13 +46,15 @@ if __name__ == "__main__":
     dataset.loadData()
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
 
-    # sequentialization
-    train_dataset, train_labels = Sequentialize.sequentializeDataset(train_dataset, train_labels, timeWindow=timeWindow, sequenceLen=seqLen)
-    test_dataset, test_labels = Sequentialize.sequentializeDataset(test_dataset, test_labels, timeWindow=timeWindow, sequenceLen=seqLen)
-
     # conduct undersampling
     rus = RandomUnderSampler(random_state=8)
     train_dataset, train_labels = rus.fit_resample(train_dataset, train_labels)
+    train_dataset = numpy.ndarray.tolist(train_dataset)
+    train_labels = numpy.ndarray.tolist(train_labels)
+
+    # sequentialization
+    train_dataset, train_labels = Sequentialize.sequentializeDataset(train_dataset, train_labels, timeWindow=timeWindow, sequenceLen=seqLen)
+    test_dataset, test_labels = Sequentialize.sequentializeDataset(test_dataset, test_labels, timeWindow=timeWindow, sequenceLen=seqLen)
 
     # list to ndarray
     train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), seqLen, features))
