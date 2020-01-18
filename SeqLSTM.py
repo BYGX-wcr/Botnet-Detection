@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     # get the dataset
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData()
+    dataset.loadData(denoise=True)
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
 
     # sequentialization
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     if epochs > 0:
         print("Info: Start Training")
         train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
-        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, class_weight=class_weights)
+        model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
         model.save("SeqLSTM.model")
 
     print("Info: Start Testing")

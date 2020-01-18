@@ -15,7 +15,7 @@ class Dataset:
             self.data.append([])
             self.labels.append([])
 
-    def loadData(self, idList=range(1, 14), featureList=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]):
+    def loadData(self, idList=range(1, 14), featureList=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], denoise=False):
         """Load the SubDatasets specified in the arg:idList with the features specified in the arg:featureList"""
         featureList.append(14) # ensure that label will be handled
         for i in idList:
@@ -35,6 +35,9 @@ class Dataset:
                             # only load the required features
                             vector.append(handlers[counter](item))
                         counter += 1
+
+                    if denoise and vector[len(vector) - 1] == 0:
+                        continue
 
                     # append vector to the SubDataset
                     self.labels[i].append(vector[len(vector) - 1])
