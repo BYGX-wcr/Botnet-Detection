@@ -47,14 +47,18 @@ if __name__ == "__main__":
     test_dataset, test_labels = Sequentialize.sequentializeDataset(test_dataset, test_labels, timeWindow=timeWindow, sequenceLen=seqLen)
 
     # list to ndarray
-    train_dataset = numpy.array(train_dataset).reshape((len(train_dataset), seqLen, features))
-    test_dataset = numpy.array(test_dataset).reshape((len(test_dataset), seqLen, features))
+    train_dataset = numpy.array(train_dataset)#.reshape((len(train_dataset), seqLen, features))
+    test_dataset = numpy.array(test_dataset)#.reshape((len(test_dataset), seqLen, features))
     train_labels = numpy.array(train_labels)
     test_labels = numpy.array(test_labels)
 
+    # convert multi-class labels to binary labels
+    for i in range(0, len(train_labels)):
+        train_labels[i] = train_labels[i] - 1
+
     if epochs > 0:
         print("Info: Start Training")
-        # train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
+        train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
         model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
         model.save("SeqLSTM.model")
 
