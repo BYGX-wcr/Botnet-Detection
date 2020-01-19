@@ -2,13 +2,13 @@ import LoadDataset
 import DatasetStatistics
 import numpy
 
-def sequentializeDataset(data, labels, batchSize=1000, timeWindow=2, sequenceLen=5, fixedLen=True):
+def sequentializeDataset(data, labels, batchSize=1000, timeWindow=2, sequenceLen=5):
     newData = []
     newLabels = []
 
     counter = 0
     while counter < len(data):
-        if fixedLen:
+        if sequenceLen != None:
             seqData, seqLabels = extractSequence(data[counter:counter+batchSize], labels[counter:counter+batchSize], timeWindow=timeWindow, sequenceLen=sequenceLen)
         else:
             seqData, seqLabels = extractVarSequence(data[counter:counter+batchSize], labels[counter:counter+batchSize], timeWindow=timeWindow)
