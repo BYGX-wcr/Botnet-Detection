@@ -74,7 +74,7 @@ if __name__ == "__main__":
         for prob_vec in res:
             max_class = 0
             max_prob = 0.0
-            index = 0
+            index = 1
             # find the class with max probability
             for class_prob in prob_vec:
                 if class_prob > max_prob:
