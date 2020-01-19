@@ -27,6 +27,7 @@ if __name__ == "__main__":
     model = None
     if len(sys.argv) < 3:
         # create a new model
+        model = Sequential()
         model.add(LSTM(32, return_sequences=True, input_shape=(seqLen, features)))  # returns a sequence of vectors of dimension 32
         model.add(LSTM(32, return_sequences=True))  # returns a sequence of vectors of dimension 32
         model.add(LSTM(32))  # return a single vector of dimension 32
