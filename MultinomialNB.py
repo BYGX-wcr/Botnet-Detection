@@ -20,10 +20,12 @@ def experiment(train_dataset, test_dataset, train_labels, test_labels=None):
     MulNB_model = train_MulNB(train_dataset, train_labels)
     res = predict_MulNB(test_dataset, MulNB_model)
     if test_labels != None:
-        print("Balanced accuracy: {0}".format(Summary.acc_score(res, test_labels)))
-        print("F1 score: {0}".format(Summary.f1_score(res, test_labels)))
-        print("Precision score: {0}".format(Summary.prec_score(res, test_labels)))
-        print("Recall score: {0}".format(Summary.recall_score(res, test_labels)))
+        with open("MulNB.result", 'w') as file:
+            counter = 0
+            for label in res:
+                # output
+                file.write(str(label) + ',' + str(test_labels[counter]) + '\n')
+                counter += 1
 
     return res
 
