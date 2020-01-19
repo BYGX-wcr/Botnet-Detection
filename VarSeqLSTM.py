@@ -59,7 +59,7 @@ if __name__ == "__main__":
     if epochs > 0:
         print("Info: Start Training")
         train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
-        for counter in len(train_dataset):
+        for counter in range(0, len(train_dataset)):
             record = train_dataset[counter]
             instance = numpy.array(record).reshape(1, numpy.size(record, 0), features)
             model.fit(instance, train_labels[counter], batch_size=512, epochs=epochs)
