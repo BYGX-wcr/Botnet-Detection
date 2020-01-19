@@ -32,6 +32,10 @@ if __name__ == "__main__":
         model.add(LSTM(32))  # return a single vector of dimension 32
         model.add(Dropout(0.5))
         model.add(Dense(class_num, activation='softmax'))
+
+        model.compile(loss='categorical_crossentropy',
+              optimizer='rmsprop',
+              metrics=['accuracy'])
     else:
         # use an existing model
         model = keras.models.load_model(sys.argv[2])
