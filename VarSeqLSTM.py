@@ -40,8 +40,8 @@ if __name__ == "__main__":
 
     # get the dataset
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData(idList=[5, 6], denoise=True)
-    train_dataset, train_labels, test_dataset, test_labels = dataset.getShrinkedDataset([5], [6])
+    dataset.loadData(denoise=True)
+    train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
 
     # sequentialization
     train_dataset, train_labels = Sequentialize.sequentializeDataset(train_dataset, train_labels, timeWindow=timeWindow, sequenceLen=seqLen)
