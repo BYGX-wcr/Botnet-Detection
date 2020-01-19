@@ -1,5 +1,6 @@
 import LoadDataset
 import DatasetStatistics
+import numpy
 
 def sequentializeDataset(data, labels, batchSize=1000, timeWindow=2, sequenceLen=5, fixedLen=True):
     newData = []
@@ -119,6 +120,7 @@ def extractVarSequence(data, labels, timeWindow):
                     break
 
             # add sequence into the final sequentialized dataset
+            sequence = numpy.array(sequence)
             seqData.append(sequence)
             seqLabels.append(label)
             counter += it
