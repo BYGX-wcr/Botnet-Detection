@@ -1,13 +1,16 @@
 import LoadDataset
 import DatasetStatistics
 
-def sequentializeDataset(data, labels, batchSize=1000, timeWindow=2, sequenceLen=5):
+def sequentializeDataset(data, labels, batchSize=1000, timeWindow=2, sequenceLen=5, fixedLen=True):
     newData = []
     newLabels = []
 
     counter = 0
     while counter < len(data):
-        seqData, seqLabels = extractSequence(data[counter:counter+batchSize], labels[counter:counter+batchSize], timeWindow=timeWindow, sequenceLen=sequenceLen)
+        if fixedLen:
+            seqData, seqLabels = extractSequence(data[counter:counter+batchSize], labels[counter:counter+batchSize], timeWindow=timeWindow, sequenceLen=sequenceLen)
+        else:
+            seqData, seqLabels = extractVarSequence(data[counter:counter+batchSize], labels[counter:counter+batchSize], timeWindow=timeWindow)
         counter += batchSize
         newData += seqData
         newLabels += seqLabels
@@ -63,6 +66,57 @@ def extractSequence(data, labels, timeWindow, sequenceLen):
                 deficit = sequenceLen - it
                 for i in range(deficit):
                     sequence.append([0] * len(anchor))
+
+            # add sequence into the final sequentialized dataset
+            seqData.append(sequence)
+            seqLabels.append(label)
+            counter += it
+
+    return seqData, seqLabels
+
+def extractVarSequence(data, labels, timeWindow):
+    """
+    This function extract a bunch of record sequences from input data.
+    The arg:timeWindow is measured in minutes, the sequence length is variable
+    """
+    ipMap = dict()
+    # aggregate netflow records by source IP, discard MAC record (minority)
+    for counter in range(0, len(data)):
+        record = data[counter]
+        label = labels[counter]
+        srcAddr = record[3]
+
+        if srcAddr not in ipMap:
+            ipMap[srcAddr] = []
+            ipMap[srcAddr].append([record, label])
+        else:
+            ipMap[srcAddr].append([record, label])
+
+    seqData = []
+    seqLabels = []
+    # traverse each aggregated record list, extract sequences
+    for value in ipMap.values():
+        counter = 0
+        recList = sorted(value, key=lambda rec: rec[0])
+        while counter < len(recList):
+            # create sequence based on anchor
+            sequence = []
+            anchor = recList[counter][0]
+            label = recList[counter][1]
+            sequence.append(anchor)
+
+            it = 1
+            while (counter + it) < len(recList):
+                # search for adjacent records
+                startTime = recList[counter + it][0][0]
+                anchorTime = anchor[0]
+                if  startTime - anchorTime < timeWindow * 60:
+                    # if the record is within the time window beginning with the anchor, append it
+                    sequence.append(recList[counter + it][0])
+                    label = max(label, recList[counter + it][1]) # Botnet > Normal > Background
+                    it += 1
+                else:
+                    break
 
             # add sequence into the final sequentialized dataset
             seqData.append(sequence)
