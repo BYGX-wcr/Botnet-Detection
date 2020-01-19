@@ -60,12 +60,12 @@ if __name__ == "__main__":
         print("Info: Start Training")
         train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int') # one-hot encoding
         model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs)
-        model.save("SeqLSTM.model")
+        model.save("VarSeqLSTM.model")
 
     print("Info: Start Testing")
     res = model.predict(test_dataset, batch_size=512)
     print(res)
-    with open("SeqLSTM.result", 'w') as file:
+    with open("VarSeqLSTM.result", 'w') as file:
         counter = 0
         for prob_vec in res:
             max_class = 0
