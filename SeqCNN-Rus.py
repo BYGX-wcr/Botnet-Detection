@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # parameters settings
     class_num = 3
     seqLen = 16
-    timeWindow = 3
+    timeWindow = 2
     features = 14
     # get training epochs
     epochs = 1
@@ -43,8 +43,8 @@ if __name__ == "__main__":
 
     # get the dataset
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData()
-    train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
+    dataset.loadData([5, 6])
+    train_dataset, train_labels, test_dataset, test_labels = dataset.getShrinkedDataset([5], [6])
 
     # conduct undersampling
     rus = RandomUnderSampler(random_state=8)
