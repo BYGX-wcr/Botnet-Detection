@@ -28,7 +28,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(Masking(mask_value= 0,input_shape=(seqLen, features)))
+        model.add(Masking(mask_value= -1,input_shape=(seqLen, features)))
         model.add(LSTM(32, input_shape=(None, features)))
         model.add(Dense(class_num, activation='softmax'))
         model.compile(loss='binary_crossentropy',
@@ -44,8 +44,8 @@ if __name__ == "__main__":
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
 
     # sequentialization
-    train_dataset, train_labels = Sequentialize.sequentializeDataset(train_dataset, train_labels, timeWindow=timeWindow, sequenceLen=seqLen)
-    test_dataset, test_labels = Sequentialize.sequentializeDataset(test_dataset, test_labels, timeWindow=timeWindow, sequenceLen=seqLen)
+    train_dataset, train_labels = Sequentialize.sequentializeDataset(train_dataset, train_labels, timeWindow=timeWindow, sequenceLen=seqLen, mask_value=-1)
+    test_dataset, test_labels = Sequentialize.sequentializeDataset(test_dataset, test_labels, timeWindow=timeWindow, sequenceLen=seqLen, mask_value=-1)
 
     # list to ndarray
     train_dataset = numpy.array(train_dataset)#.reshape((len(train_dataset), seqLen, features))

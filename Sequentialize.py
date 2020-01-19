@@ -2,14 +2,14 @@ import LoadDataset
 import DatasetStatistics
 import numpy
 
-def sequentializeDataset(data, labels, batchSize=1000, timeWindow=2, sequenceLen=5):
+def sequentializeDataset(data, labels, batchSize=1000, timeWindow=2, sequenceLen=5, mask_value=0):
     newData = []
     newLabels = []
 
     counter = 0
     while counter < len(data):
         if sequenceLen != None:
-            seqData, seqLabels = extractSequence(data[counter:counter+batchSize], labels[counter:counter+batchSize], timeWindow=timeWindow, sequenceLen=sequenceLen)
+            seqData, seqLabels = extractSequence(data[counter:counter+batchSize], labels[counter:counter+batchSize], timeWindow=timeWindow, sequenceLen=sequenceLen, mask_value=mask_value)
         else:
             seqData, seqLabels = extractVarSequence(data[counter:counter+batchSize], labels[counter:counter+batchSize], timeWindow=timeWindow)
         counter += batchSize
@@ -18,7 +18,7 @@ def sequentializeDataset(data, labels, batchSize=1000, timeWindow=2, sequenceLen
 
     return newData, newLabels
 
-def extractSequence(data, labels, timeWindow, sequenceLen):
+def extractSequence(data, labels, timeWindow, sequenceLen, mask_value):
     """
     This function extract a bunch of record sequences from input data.
     The arg:timeWindow is measured in minutes, arg:sequenceLen indicates each the number of records in each sequence.
@@ -66,7 +66,7 @@ def extractSequence(data, labels, timeWindow, sequenceLen):
                 # if the sequence doesn't contain enough records, append zeros
                 deficit = sequenceLen - it
                 for i in range(deficit):
-                    sequence.append([0] * len(anchor))
+                    sequence.append([mask_value] * len(anchor))
 
             # add sequence into the final sequentialized dataset
             seqData.append(sequence)
