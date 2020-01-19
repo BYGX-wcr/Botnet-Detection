@@ -120,7 +120,7 @@ def extractVarSequence(data, labels, timeWindow):
                     break
 
             # add sequence into the final sequentialized dataset
-            sequence = numpy.array(sequence)
+            sequence = numpy.array(sequence).reshape(len(sequence), len(sequence[0]))
             seqData.append(sequence)
             seqLabels.append(label)
             counter += it
