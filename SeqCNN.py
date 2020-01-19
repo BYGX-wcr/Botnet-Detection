@@ -13,7 +13,7 @@ import Sequentialize
 
 if __name__ == "__main__":
     # parameters settings
-    class_num = 3
+    class_num = 2
     seqLen = 16
     timeWindow = 2
     features = 14
@@ -27,12 +27,12 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         # create a new model
         model = Sequential()
-        model.add(Conv1D(64, 3, activation='relu', input_shape=(seqLen, features)))
+        model.add(Conv1D(32, 3, activation='relu', input_shape=(seqLen, features)))
         model.add(MaxPooling1D(3))
-        model.add(Conv1D(128, 3, activation='relu'))
+        model.add(Conv1D(64, 3, activation='relu'))
         model.add(GlobalAveragePooling1D())
         model.add(Dropout(0.5))
-        model.add(Dense(3, activation='softmax'))
+        model.add(Dense(class_num, activation='softmax'))
 
         model.compile(loss='categorical_crossentropy',
                     optimizer='adam',
@@ -43,14 +43,8 @@ if __name__ == "__main__":
 
     # get the dataset
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData()
+    dataset.loadData(denoise=True)
     train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
-
-    # conduct undersampling
-    rus = RandomUnderSampler(random_state=8)
-    train_dataset, train_labels = rus.fit_resample(train_dataset, train_labels)
-    train_dataset = numpy.ndarray.tolist(train_dataset)
-    train_labels = numpy.ndarray.tolist(train_labels)
 
     # sequentialization
     train_dataset, train_labels = Sequentialize.sequentializeDataset(train_dataset, train_labels, timeWindow=timeWindow, sequenceLen=seqLen)
@@ -62,16 +56,20 @@ if __name__ == "__main__":
     train_labels = numpy.array(train_labels)
     test_labels = numpy.array(test_labels)
 
+    # convert multi-class labels to binary labels
+    for i in range(0, len(train_labels)):
+        train_labels[i] = train_labels[i] - 1
+
     if epochs > 0:
         print("Info: Start Training")
         train_labels = np_utils.to_categorical(train_labels, num_classes=class_num, dtype='int')
         model.fit(train_dataset, train_labels, batch_size=512, epochs=epochs, validation_split=0.2)
-        model.save("SeqCNN-Rus.model")
+        model.save("SeqCNN.model")
 
     print("Info: Start Testing")
     res = model.predict(test_dataset, batch_size=512)
     print(res)
-    with open("SeqCNN-Rus.result", 'w') as file:
+    with open("SeqCNN.result", 'w') as file:
         counter = 0
         for prob_vec in res:
             max_class = 0
