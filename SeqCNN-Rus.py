@@ -43,8 +43,8 @@ if __name__ == "__main__":
 
     # get the dataset
     dataset = LoadDataset.Dataset("./CTU-13-Dataset")
-    dataset.loadData([5, 6])
-    train_dataset, train_labels, test_dataset, test_labels = dataset.getShrinkedDataset([5], [6])
+    dataset.loadData()
+    train_dataset, train_labels, test_dataset, test_labels = dataset.getEntireDataset()
 
     # conduct undersampling
     rus = RandomUnderSampler(random_state=8)
