@@ -1,6 +1,7 @@
 import sklearn.metrics as sm
 import sys
 import copy
+import DatasetStatistics
 
 def acc_score(predict_labels, test_labels):
     return sm.balanced_accuracy_score(test_labels, predict_labels)
@@ -25,6 +26,12 @@ if __name__ == "__main__":
                 labels = line.strip().split(',')
                 predict_labels.append(int(labels[0]))
                 test_labels.append(int(labels[1]))
+
+        # count labels
+        print("Prediction")
+        DatasetStatistics.labelCount(predict_labels)
+        print("Ground-truth")
+        DatasetStatistics.labelCount(test_labels)
 
         # transform multi-class dataset to binary dataset
         t_predict_labels = copy.deepcopy(predict_labels)
